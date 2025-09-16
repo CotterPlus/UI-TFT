@@ -20,6 +20,16 @@ uint8_t D0 = 16; //定义KEY1和KEY2的引脚
 uint8_t D1 = 17;
 bool RefreshCurrentIndex=false;//控制电流检测数据是否刷新
 
+//chart
+lv_chart_series_t * ui_Chart1_series_2 ;
+lv_coord_t ui_Chart1_series_2_array[] = { 0, 10, 20, 40, 80, 80, 40, 20, 10, 0 };
+
+
+//test
+int num=0;
+int index1=1;
+float Current = 0;
+
 //parameter of mine
 int16_t WidthOfText=0;
 byte TxCmd[5]={0x55,0x55,0x01,0x01,0xac};
@@ -144,12 +154,14 @@ void RefreshCurrentData()//用于实时更新电流数据
     {
         Serial1.write(TxCmd, 5);
         delay(50);
-        if (Serial1.available() > 0)
-        { // 用于读取多字节，并进行数据处理之后显示
 
+
+
+        if (Serial1.available() > 0)
+        { // 用于读取多字节，并进行数据处理之后显示，同时更新曲线
             uint8_t receiveData[64];
             int32_t RawData;
-            float Current = 0;
+            
             delay(10);
 
             // 读取可用的字节数
@@ -161,6 +173,9 @@ void RefreshCurrentData()//用于实时更新电流数据
             //在屏幕上显示
             lv_label_set_text_fmt(ui_Label10, "%.1f", Current);
             Serial.printf("Received RawData:%.1f\r\n",Current);
+
+            // //更新曲线chart
+            // lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_1, (lv_coord_t)Current); // 更新曲线
         }
     }
 }
@@ -196,12 +211,19 @@ void setup ()
 
     ui_init();
     // set_button(); // 一定在ui_init()函数后面调用set_button()函数创建输入设备组，因为按键组件在ui_init()中才被初始化。
+    //绑定Chart的数据
+    //chart
+    ui_Chart1_series_2 = lv_chart_add_series(ui_Chart1, lv_color_hex(0x808080), LV_CHART_AXIS_PRIMARY_Y);
+    lv_chart_set_ext_y_array(ui_Chart1, ui_Chart1_series_2, ui_Chart1_series_2_array);
+
 
     encoder_config();//编码器配置
     input_task_create();
     set_encoder();
 
     Serial.println( "Setup done" );
+
+
 }
 
 void loop ()
@@ -209,5 +231,20 @@ void loop ()
     lv_timer_handler(); /* let the GUI do its work */
     RefreshCurrentData();
     Serial.printf("RefreshCurrentIndex:%d\r\n",RefreshCurrentIndex);
+    if (RefreshCurrentIndex == true)
+    {
+         //测试
+         
+         if(num>75)
+         {
+            index1=-1;
+         }else if(num<25)
+         {
+            index1=1;
+         }
+         num=num+index1;
+         lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_2, num); // 更新曲线
+        
+    }
     delay(5);
 }
