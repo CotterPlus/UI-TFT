@@ -233,17 +233,18 @@ void loop ()
     Serial.printf("RefreshCurrentIndex:%d\r\n",RefreshCurrentIndex);
     if (RefreshCurrentIndex == true)
     {
-         //测试
+        lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_2, (lv_coord_t)Current); 
+         //测试chart更新
          
-         if(num>75)
-         {
-            index1=-1;
-         }else if(num<25)
-         {
-            index1=1;
-         }
-         num=num+index1;
-         lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_2, num); // 更新曲线
+        //  if(num>75)
+        //  {
+        //     index1=-1;
+        //  }else if(num<25)
+        //  {
+        //     index1=1;
+        //  }
+        //  num=num+index1;
+        //  lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_2, num); // 更新曲线
         
     }
     delay(5);
