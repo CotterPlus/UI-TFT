@@ -40,6 +40,7 @@ lv_obj_t * ui_Chart1;
 lv_obj_t * ui_Chart1_Xaxis;
 lv_obj_t * ui_Chart1_Yaxis1;
 lv_obj_t * ui_Chart1_Yaxis2;
+void ui_event_Button4(lv_event_t *e);
 lv_obj_t * ui_Button4;
 lv_obj_t * ui_Label8;
 void ui_event_Button5(lv_event_t * e);
@@ -79,6 +80,16 @@ void ui_event_Button3(lv_event_t * e)
         //编码器的group随页面同步变化,当屏幕切换到screen2时
         lv_indev_set_group(indev, gp2);  
     }
+}
+
+void ui_event_Button4(lv_event_t *e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        ResponseDetectButton(e);
+    }
+
 }
 
 void ui_event_Button5(lv_event_t * e)

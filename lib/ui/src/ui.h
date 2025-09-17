@@ -52,6 +52,7 @@ extern lv_obj_t * ui_Chart1;
 extern lv_obj_t * ui_Chart1_Xaxis;
 extern lv_obj_t * ui_Chart1_Yaxis1;
 extern lv_obj_t * ui_Chart1_Yaxis2;
+void ui_event_Button4(lv_event_t * e);
 extern lv_obj_t * ui_Button4;
 extern lv_obj_t * ui_Label8;
 void ui_event_Button5(lv_event_t * e);

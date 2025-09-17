@@ -22,14 +22,15 @@ bool RefreshCurrentIndex=false;//控制电流检测数据是否刷新
 
 //chart
 lv_chart_series_t * ui_Chart1_series_2 ;
-lv_coord_t ui_Chart1_series_2_array[] = { 0, 10, 20, 40, 80, 80, 40, 20, 10, 0 };
+lv_coord_t ui_Chart1_series_2_array[] = { 0,0, 0, 0, 0, 0, 0, 0, 0, 0 };//初始化为0
 
 
 //test
 int num=0;
 int index1=1;
-float Current = 0;
-
+float Current = 0;//实测电流
+float DarkCurrent = 0;//暗电流电流
+float LightCurrent = 0;//光电流电流
 //parameter of mine
 int16_t WidthOfText=0;
 byte TxCmd[5]={0x55,0x55,0x01,0x01,0xac};
@@ -171,9 +172,10 @@ void RefreshCurrentData()//用于实时更新电流数据
             RawData=(receiveData[4]<<24)|(receiveData[5]<<16)|(receiveData[6]<<8)|receiveData[7];//按位与预算，将32位补码转换成带符号整数
             Current=RawData*0.1;
             //在屏幕上显示
-            lv_label_set_text_fmt(ui_Label10, "%.1f", Current);
+            lv_label_set_text_fmt(ui_Label10, "%.1f", Current);//实测电流
             Serial.printf("Received RawData:%.1f\r\n",Current);
-
+            LightCurrent=Current-DarkCurrent;
+            lv_label_set_text_fmt(ui_Label9, "%.1f", LightCurrent);//光电流
             // //更新曲线chart
             // lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_1, (lv_coord_t)Current); // 更新曲线
         }
@@ -236,14 +238,15 @@ void loop ()
         lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_2, (lv_coord_t)Current); 
          //测试chart更新
          
-        //  if(num>75)
+        //  if(num>25)
         //  {
         //     index1=-1;
-        //  }else if(num<25)
+        //  }else if(num<-25)
         //  {
         //     index1=1;
         //  }
         //  num=num+index1;
+        //  Serial.printf("num:%d\r\n",num);
         //  lv_chart_set_next_value(ui_Chart1, ui_Chart1_series_2, num); // 更新曲线
         
     }

@@ -22,33 +22,56 @@ void ui_Screen2_screen_init(void)
     //lv_obj_remove_flag( ui_Chart1, LV_OBJ_FLAG_SCROLLABLE );    //no chart-zoom in LVGL9 - Shouldn't it be forced to False?
     lv_chart_set_type(ui_Chart1, LV_CHART_TYPE_LINE);
 
+    //设置范围
+    lv_chart_set_range(ui_Chart1, LV_CHART_AXIS_PRIMARY_Y, -50, 50);//设置Y轴的实际显示范围
+    
+
     ui_Chart1_Xaxis = lv_scale_create(ui_Chart1);
     lv_scale_set_mode(ui_Chart1_Xaxis, LV_SCALE_MODE_HORIZONTAL_BOTTOM);
     lv_obj_set_size(ui_Chart1_Xaxis, lv_pct(100), 50);
     lv_obj_set_align(ui_Chart1_Xaxis, LV_ALIGN_BOTTOM_MID);
-    lv_obj_set_y(ui_Chart1_Xaxis, 50 + lv_obj_get_style_pad_bottom(ui_Chart1,
-                                                                   LV_PART_MAIN) + lv_obj_get_style_border_width(ui_Chart1, LV_PART_MAIN));
+    lv_obj_set_y(ui_Chart1_Xaxis, 50 + lv_obj_get_style_pad_bottom(ui_Chart1,LV_PART_MAIN) + lv_obj_get_style_border_width(ui_Chart1, LV_PART_MAIN));
     lv_obj_set_style_line_width(ui_Chart1_Xaxis, 0, LV_PART_MAIN);
     lv_obj_set_style_line_width(ui_Chart1_Xaxis, 1, LV_PART_ITEMS);   //LVGL-9.1 ticks are thicker by default
     lv_obj_set_style_line_width(ui_Chart1_Xaxis, 1, LV_PART_INDICATOR);
     lv_obj_set_style_length(ui_Chart1_Xaxis, 5, LV_PART_ITEMS);      //minor tick length
     lv_obj_set_style_length(ui_Chart1_Xaxis, 10, LV_PART_INDICATOR);      //major tick length
+
+        //设置X轴范围
+    // lv_scale_set_range(ui_Chart1_Xaxis, 0, 10); 
+    // lv_scale_set_total_tick_count(ui_Chart1_Yaxis1, 11);  // 总共11个刻度
+    // lv_scale_set_major_tick_every(ui_Chart1_Yaxis1, 2);   // 每2个小刻度显示一个大刻度
     lv_scale_set_range(ui_Chart1_Xaxis, 0, 5 > 0 ? 5 - 1 : 0);
     lv_scale_set_total_tick_count(ui_Chart1_Xaxis, (5 > 0 ? 5 - 1 : 0) * 2 + 1);
     lv_scale_set_major_tick_every(ui_Chart1_Xaxis, 2 >= 1 ? 2 : 1);
+
+
     ui_Chart1_Yaxis1 = lv_scale_create(ui_Chart1);
     lv_scale_set_mode(ui_Chart1_Yaxis1, LV_SCALE_MODE_VERTICAL_LEFT);
     lv_obj_set_size(ui_Chart1_Yaxis1, 50, lv_pct(100));
     lv_obj_set_align(ui_Chart1_Yaxis1, LV_ALIGN_LEFT_MID);
-    lv_obj_set_x(ui_Chart1_Yaxis1, -50 - lv_obj_get_style_pad_left(ui_Chart1,
-                                                                   LV_PART_MAIN) - lv_obj_get_style_border_width(ui_Chart1, LV_PART_MAIN) + 2);
+    lv_obj_set_x(ui_Chart1_Yaxis1, -50 - lv_obj_get_style_pad_left(ui_Chart1,LV_PART_MAIN) - lv_obj_get_style_border_width(ui_Chart1, LV_PART_MAIN) + 2);
+
     lv_obj_set_style_line_width(ui_Chart1_Yaxis1, 0, LV_PART_MAIN);
     lv_obj_set_style_line_width(ui_Chart1_Yaxis1, 1, LV_PART_ITEMS);
     lv_obj_set_style_line_width(ui_Chart1_Yaxis1, 1, LV_PART_INDICATOR);
     lv_obj_set_style_length(ui_Chart1_Yaxis1, 5, LV_PART_ITEMS);   //minor tick length
-    lv_obj_set_style_length(ui_Chart1_Yaxis1, 10, LV_PART_INDICATOR);   //major tick length
-    lv_scale_set_total_tick_count(ui_Chart1_Yaxis1, (5 > 0 ? 5 - 1 : 0) * 2 + 1);
+    lv_obj_set_style_length(ui_Chart1_Yaxis1, 10, LV_PART_INDICATOR);
+    
+    
+    //major tick length
+  
+
+    //设置Y轴范围
+    lv_scale_set_range(ui_Chart1_Yaxis1, -50, 50);//设置Y轴显示的值
+     lv_scale_set_total_tick_count(ui_Chart1_Yaxis1, (5 > 0 ? 5 - 1 : 0) * 2 + 1);
     lv_scale_set_major_tick_every(ui_Chart1_Yaxis1, 2 >= 1 ? 2 : 1);
+
+  
+    
+
+
+    
     ui_Chart1_Yaxis2 = lv_scale_create(ui_Chart1);
     lv_scale_set_mode(ui_Chart1_Yaxis2, LV_SCALE_MODE_VERTICAL_RIGHT);
     lv_obj_set_size(ui_Chart1_Yaxis2, 25, lv_pct(100));
@@ -60,9 +83,12 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_line_width(ui_Chart1_Yaxis2, 1, LV_PART_INDICATOR);
     lv_obj_set_style_length(ui_Chart1_Yaxis2, 0, LV_PART_ITEMS);   //minor tick length
     lv_obj_set_style_length(ui_Chart1_Yaxis2, 0, LV_PART_INDICATOR);   //major tick length
+    
+    //设置Y轴范围
+    lv_scale_set_range(ui_Chart1_Yaxis2, -50, 50);
     lv_scale_set_total_tick_count(ui_Chart1_Yaxis2, (5 > 0 ? 5 - 1 : 0) * 2 + 1);
     lv_scale_set_major_tick_every(ui_Chart1_Yaxis2, 2 >= 1 ? 2 : 1);
-    lv_scale_set_label_show(ui_Chart1_Yaxis2, false);
+    // lv_scale_set_label_show(ui_Chart1_Yaxis2, false);
     // lv_chart_series_t * ui_Chart1_series_1 = lv_chart_add_series(ui_Chart1, lv_color_hex(0x808080),
     //                                                              LV_CHART_AXIS_PRIMARY_Y);
     // static lv_coord_t ui_Chart1_series_1_array[] = { 0, 10, 20, 40, 80, 80, 40, 20, 10, 0 };
@@ -88,7 +114,7 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_width(ui_Label8, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_Label8, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Label8, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Label8, "Export");
+    lv_label_set_text(ui_Label8, "Detect");
 
     ui_Button5 = lv_button_create(ui_Screen2);
     lv_obj_set_width(ui_Button5, 112);
@@ -115,7 +141,8 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_y(ui_Label12, -86);
     lv_obj_set_align(ui_Label12, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label12, "I-t curve");
-
+    
+    lv_obj_add_event_cb(ui_Button4, ui_event_Button4, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Button5, ui_event_Button5, LV_EVENT_ALL, NULL);
 
 }
